@@ -2,9 +2,9 @@
 
 An auto splitter for Sonic Heroes played with Dolphin (NTSC-U).
 
-##Usage
+## Usage
 
-First, make sure the Heroes autosplitter for is deactivated.
+First, make sure the Heroes autosplitter is deactivated.
 
 Then, right click on livesplit -> Edit Layout -> + -> Control -> Auto Splitting Runtime and browse for the .wasm file in the releases tab.  
 
