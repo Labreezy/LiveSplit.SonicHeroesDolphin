@@ -2,7 +2,6 @@
 
 An auto splitter for Sonic Heroes played with Dolphin (NTSC-U).
 
-
 ##Usage
 
 First, make sure the Heroes autosplitter for is deactivated.
