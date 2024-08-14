@@ -1,5 +1,5 @@
 #![no_std]
-#![feature(type_alias_impl_trait, const_async_blocks)]
+
 #![warn(
     clippy::complexity,
     clippy::correctness,
@@ -23,12 +23,15 @@ use asr::settings::Gui;
 use bitflags::bitflags;
 
 asr::panic_handler!();
-asr::async_main!(nightly);
+asr::async_main!(stable);
 
 
 #[derive(Gui)]
 pub struct Settings {
     #[default = true]
+    ///Start
+    ///
+    ///Automatically start the autosplitter.
     automatically_start: bool,
 }
 
@@ -54,6 +57,7 @@ async fn main() {
                 // 2. If the timer is currently either running or paused, then the isLoading, gameTime, and reset actions will be run.
                 // 3. If reset does not return true, then the split action will be run.
                 // 4. If the timer is currently not running (and not paused), then the start action will be run.
+                settings.update();
                 update_loop(&emulator, &offsets, &mut watchers);
                 let timer_state = timer::state();
                 if timer_state == TimerState::Running {
@@ -124,7 +128,7 @@ fn update_loop(game: &Emulator, offsets: &Offsets, watchers: &mut Watchers) {
     
 
 fn start(watchers: &Watchers, settings: &Settings) -> bool {
-    if !settings.automatically_start return false;
+    if !settings.automatically_start {return false;}
     if watchers.frame_counter.pair.expect("WHOOPS (START)").changed_from(&0) {
         return true;
     }
@@ -147,9 +151,11 @@ fn is_loading(watchers: &Watchers) -> Option<bool> {
 fn game_time(watchers: &Watchers, info: &mut IGTInfo) -> Option<Duration> {
 
     let Some(fcount) = watchers.frame_counter.pair else {return None};
-
-    let framesToAdd : u32 = fcount.current - fcount.old;
-    info.total_frames += framesToAdd;
+    if(fcount.current > fcount.old){
+        let framesToAdd : u32 = fcount.current - fcount.old;
+        info.total_frames += framesToAdd;
+    }
+    
     let total_igt : Duration = frame_count::<60>(info.total_frames.into());
     Some(total_igt)
     

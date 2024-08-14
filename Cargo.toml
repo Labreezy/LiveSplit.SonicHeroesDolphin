@@ -6,7 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-asr = { git = "https://github.com/Jujstme/asr", features = [
+asr = { git = "https://github.com/Jujstme/asr", rev ="2ae6480", features = [
     # "alloc", # Working with allocations.
     "derive", # Defining your own settings structs and converting endianness.
     # "flags", # Working with bit flags.
@@ -20,15 +20,13 @@ asr = { git = "https://github.com/Jujstme/asr", features = [
     # "ps1", # Accessing PlayStation emulators.
 ] }
 
-# Bytemuck can be used to define structs that are being read from the game's process.
-bytemuck = { version = "1", features = ["derive", "min_const_generics"] }
+
 
 arrayvec = { version = "0.7.4", default-features = false }
 bitflags = "2.4.0"
 numtoa = "0.2.4"
 
-# This fixes memcmp not being exported to the wasi environment in no_std mode
-compiler_builtins = { version = "0.1.95", features = ["mem"] }
+
 
 [lib]
 crate-type = ["cdylib"]
