@@ -19,21 +19,28 @@ use asr::{
     watcher::Watcher, timer::{self, TimerState}, time::Duration, time_util::frame_count, print_message, Address32, Address,
 };
 use asr::time_util;
-
+use asr::settings::Gui;
 use bitflags::bitflags;
 
 asr::panic_handler!();
 asr::async_main!(nightly);
 
 
-async fn main() {
+#[derive(Gui)]
+pub struct Settings {
+    #[default = true]
+    automatically_start: bool,
+}
 
+async fn main() {
+    let mut settings = Settings::register();
     loop {
         // Hook to the target process
         let mut emulator = retry(|| gcn::Emulator::attach()).await;
         let mut watchers = Watchers::default();
         let offsets = Offsets::new();
         let mut igt_info = IGTInfo::default();
+
 
         loop {
             if !emulator.is_open() {
@@ -65,7 +72,7 @@ async fn main() {
 
                     igt_info = IGTInfo::default();
                     
-                    if start(&watchers) {
+                    if start(&watchers, &settings) {
                     timer::start();
                     timer::pause_game_time();
                     }
@@ -116,7 +123,8 @@ fn update_loop(game: &Emulator, offsets: &Offsets, watchers: &mut Watchers) {
 }
     
 
-fn start(watchers: &Watchers) -> bool {
+fn start(watchers: &Watchers, settings: &Settings) -> bool {
+    if !settings.automatically_start return false;
     if watchers.frame_counter.pair.expect("WHOOPS (START)").changed_from(&0) {
         return true;
     }
