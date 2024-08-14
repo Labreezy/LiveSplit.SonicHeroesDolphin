@@ -17,7 +17,7 @@ install the Rust compiler: [Install Rust](https://www.rust-lang.org/tools/instal
 
 Afterwards install the WebAssembly target:
 ```sh
-rustup target add wasm32-wasi --toolchain nightly
+rustup target add wasm32-wasi
 ```
 
 The auto splitter can now be compiled:
