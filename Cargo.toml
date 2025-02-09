@@ -1,30 +1,19 @@
 [package]
 name = "heroes-dolphin-autosplitter"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-asr = { git = "https://github.com/Jujstme/asr", rev ="2ae6480", features = [
-    # "alloc", # Working with allocations.
-    "derive", # Defining your own settings structs and converting endianness.
-    # "flags", # Working with bit flags.
-    # "float-vars", # Setting floating point variables.
-    # "float-vars-small", # Setting floating point variables (small binary size).
-    # "integer-vars", # Setting integer variables.
-    "signature", # Scanning signatures.
-    # "gba", # Accessing Game Boy Advance emulators.
-    "gcn" # Accessing Gamecube emulators.
-    # "genesis", # Accessing Genesis emulators.
-    # "ps1", # Accessing PlayStation emulators.
+asr = { git = "https://github.com/Livesplit/asr", features = [
+    "derive",
+    "wasi-no-std",
+    "gcn"
 ] }
 
 
 
-arrayvec = { version = "0.7.4", default-features = false }
-bitflags = "2.4.0"
-numtoa = "0.2.4"
 
 
 
